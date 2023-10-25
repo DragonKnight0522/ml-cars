@@ -1,0 +1,124 @@
+:root {
+	/* Your default theme */
+	--background: white;
+	--background-secondary: #f9f9f9;
+	--foreground: black;
+
+	--border: #787878;
+	--border-secondary: #e0e0e0;
+
+	--road: #000;
+
+	--text-primary: #000;
+
+	--red: #eb4a41;
+	--red-secondary: #d2352d;
+	--green: #0ccc63;
+	--green-secondary: #04aa4f;
+	--blue: #1f6cfc;
+	--blue-secondary: #0059ff;
+}
+
+[data-theme='dark'] {
+	--background: black;
+	--background-secondary: #151515;
+	--foreground: white;
+
+	--text-primary: #f8f8f2;
+
+	--red: #d2352d;
+	--red-secondary: #eb4a41;
+	--green: #04aa4f;
+	--green-secondary: #0ccc63;
+	--blue: #0059ff;
+	--blue-secondary: #1f6cfc;
+}
+
+body,
+html {
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	background: var(--background);
+	overflow: hidden;
+	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+		Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    margin: 0 0.2rem;
+    line-height: 1.4;
+    cursor: pointer;
+    color: var(--foreground);
+    border: 1px solid var(--border);
+    border-radius: 0.3rem;
+}
+
+input {
+	line-height: 1.4;
+	padding: 0.5rem 1rem;
+	margin: 0.1rem 0.2rem;
+	border: 1px solid var(--border);
+	border-radius: 0.2rem;
+}
+input:active, input:focus, textarea:active, textarea:focus {
+	border: 1px solid var(--border-secondary);
+}
+
+select {
+	line-height: 1.4;
+	padding: 0.5rem 1rem;
+	margin: 0.1rem 0.2rem;
+	border: 1px solid var(--border);
+	border-radius: 0.2rem;
+}
+
+body::-webkit-scrollbar {
+	display: none;
+}
+
+body {
+	justify-content: center;
+	align-items: center;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+#welcome {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#trainStats {
+	width: 80%;
+}
+
+#activeModel {
+	display: inline-block
+}
+
+#carCanvas {
+	background: var(--road);
+	width: 100%;
+}
+
+#networkCanvas {
+	background: black;
+	width: 100%;
+}
+
+#lossChart {
+	width: 100%;
+}
