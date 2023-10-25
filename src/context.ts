@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { Simulator } from "./car/simulator";
-import { AppConfig } from "@jedwards1230/nn.js";
+import { AppConfig } from "./network";
 
 const trafficCount = 50;
 const brainCount = 1;
@@ -9,7 +9,7 @@ const smartTraffic = false;
 const activeAlias = "fsd";
 const activeModel = "trainBrain";
 
-const activeConfig = new AppConfig(activeModel, activeAlias)
+const activeConfig = new AppConfig(activeModel, activeAlias);
 
 const sim = new Simulator(trafficCount, brainCount, activeConfig, smartTraffic);
 
@@ -23,13 +23,15 @@ export const defaultAppContextConfig: AppContextConfig = {
 	simConfig: {
 		trafficCount: trafficCount,
 		brainCount: brainCount,
-		smartTraffic: smartTraffic
+		smartTraffic: smartTraffic,
 	},
 	trainConfig: {
 		numEpisodes: 100,
 		numSteps: 1000,
-		counter: 0
-	}
-}
+		counter: 0,
+	},
+};
 
-export const AppContext = createContext<AppContextConfig>(defaultAppContextConfig);
+export const AppContext = createContext<AppContextConfig>(
+	defaultAppContextConfig
+);

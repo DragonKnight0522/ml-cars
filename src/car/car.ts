@@ -1,6 +1,6 @@
 import { Controls } from "./controls";
 import { Sensor } from "./sensor";
-import { Network, AppConfig } from "@jedwards1230/nn.js";
+import { Network, AppConfig } from "../network";
 import { polysIntersect } from "../utils";
 import { DamagedOffScreenBounds, RoadCanvasDefaultHeight } from "../constants";
 
@@ -30,7 +30,7 @@ export class Car {
 		x: number,
 		y: number,
 		maxspeed: number = 3,
-		controller: boolean = false,
+		controller: boolean = false
 	) {
 		this.id = id;
 		this.x = x;
@@ -148,7 +148,7 @@ export class Car {
 			}
 
 			// limit speed
-			if (this.speed > this.maxSpeed) this.speed = this.maxSpeed
+			if (this.speed > this.maxSpeed) this.speed = this.maxSpeed;
 			else if (this.speed < this.minSpeed) this.speed = this.minSpeed;
 		}
 
@@ -191,7 +191,14 @@ export class SmartCar extends Car {
 	sensorOffsets!: number[];
 	carsPassed: number;
 
-	constructor(id: number, x: number, y: number, maxSpeed: number, config: AppConfig, player = false) {
+	constructor(
+		id: number,
+		x: number,
+		y: number,
+		maxSpeed: number,
+		config: AppConfig,
+		player = false
+	) {
 		super(id, x, y, maxSpeed, player);
 		this.player = player;
 		this.fitness = 0;
@@ -206,7 +213,8 @@ export class SmartCar extends Car {
 
 	update(borders: Point[][], traffic: Car[], action?: number[]) {
 		// kill those left behind or too slow
-		if (this.steps > 100 && this.steps < 300 && this.speed < 0.1) this.damaged = true;
+		if (this.steps > 100 && this.steps < 300 && this.speed < 0.1)
+			this.damaged = true;
 		if (this.steps > 400 && this.carsPassed < 3) this.damaged = true;
 
 		if (!this.damaged) {
@@ -226,7 +234,10 @@ export class SmartCar extends Car {
 
 	lazyAction(borders: Point[][], traffic: Car[], backprop = false): number[] {
 		const sData = this.getSensorData(borders, traffic);
-		if (!this.sensorOffsets || this.sensorOffsets.toString() !== sData.toString()) {
+		if (
+			!this.sensorOffsets ||
+			this.sensorOffsets.toString() !== sData.toString()
+		) {
 			this.sensorOffsets = sData;
 			const action = this.brain.forward(sData, backprop);
 			return this.brain.makeChoice(action);
@@ -260,9 +271,10 @@ export class SmartCar extends Car {
 
 		// multiply for each car passed
 		// target speed before passing a car for start of sim
-		fitness *= this.carsPassed > 0
-			? this.carsPassed * (this.carsPassed + 1)
-			: this.speed / this.maxSpeed * 2;
+		fitness *=
+			this.carsPassed > 0
+				? this.carsPassed * (this.carsPassed + 1)
+				: (this.speed / this.maxSpeed) * 2;
 
 		// try to approach 0
 		this.fitness = Math.abs(1 / fitness);
@@ -270,7 +282,11 @@ export class SmartCar extends Car {
 
 	/** damage any car thats fallen too far behind */
 	checkInBounds(canvasOffset: number) {
-		if (canvasOffset < 0 && Math.abs(canvasOffset) > this.x + DamagedOffScreenBounds) this.damaged = true;
+		if (
+			canvasOffset < 0 &&
+			Math.abs(canvasOffset) > this.x + DamagedOffScreenBounds
+		)
+			this.damaged = true;
 	}
 
 	draw(ctx: CanvasRenderingContext2D, bestCar?: boolean): void {
